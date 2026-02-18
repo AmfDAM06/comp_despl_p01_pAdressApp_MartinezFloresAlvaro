@@ -57,14 +57,9 @@ public class RootLayoutController {
         if (!confirmSaveIfDirty("Exit", "Exit application?")) {
             return; // cancelado
         }
-        // Si confirmSaveIfDirty devolvió true, o se guardó, o eligió no guardar
         mainApp.getPrimaryStage().close();
     }
-// -------------------- SAVE LOGIC --------------------
-    /**
-     * Guarda en el fichero actual. Si no existe (no se ha guardado nunca),
-     * abre Save As... Devuelve true si se guardó o no hacía falta guardar.
-     */
+    // -------------------- SAVE LOGIC --------------------
     private boolean saveOrSaveAs() {
         File file = mainApp.getPersonFilePath();
         if (file == null) {
@@ -81,9 +76,7 @@ public class RootLayoutController {
             return false;
         }
     }
-    /**
-     * Save As... Devuelve false si el usuario cancela.
-     */
+
     private boolean saveAs() {
         FileChooser fc = createJsonFileChooser("Save Address Book (JSON)");
         setInitialDirectory(fc);
@@ -104,15 +97,65 @@ public class RootLayoutController {
             return false;
         }
     }
+
+    // ---------------- CSV EXPORT / IMPORT ----------------
+
+    @FXML
+    private void handleExportCsv() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Export CSV");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+
+        File file = fileChooser.showSaveDialog(mainApp.getPrimaryStage());
+
+        if (file != null) {
+            if (!file.getPath().toLowerCase().endsWith(".csv")) {
+                file = new File(file.getPath() + ".csv");
+            }
+
+            try {
+                // Usamos el repositorio CSV para guardar
+                es.damdi.alvaro.comp_despl_p01_padressapp_martinezfloresalvaro.persistence.CsvPersonRepository csvRepo =
+                        new es.damdi.alvaro.comp_despl_p01_padressapp_martinezfloresalvaro.persistence.CsvPersonRepository();
+
+                csvRepo.save(file, mainApp.getPersonData());
+
+            } catch (IOException e) {
+                showError("Export Error", "Could not save data to CSV file:\n" + file.getPath(), e);
+            }
+        }
+    }
+
+    @FXML
+    private void handleImportCsv() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Import CSV");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+
+        File file = fileChooser.showOpenDialog(mainApp.getPrimaryStage());
+
+        if (file != null) {
+            try {
+                es.damdi.alvaro.comp_despl_p01_padressapp_martinezfloresalvaro.persistence.CsvPersonRepository csvRepo =
+                        new es.damdi.alvaro.comp_despl_p01_padressapp_martinezfloresalvaro.persistence.CsvPersonRepository();
+
+                java.util.List<es.damdi.alvaro.comp_despl_p01_padressapp_martinezfloresalvaro.model.Person> importedPersons = csvRepo.load(file);
+
+                // Añadir a la lista existente
+                mainApp.getPersonData().addAll(importedPersons);
+
+            } catch (IOException e) {
+                showError("Import Error", "Could not load data from CSV file:\n" + file.getPath(), e);
+            }
+        }
+    }
+
+    @FXML
+    private void handleShowBirthdayStatistics() {
+        mainApp.showBirthdayStatistics();
+    }
+
     // -------------------- DIRTY CONFIRMATION --------------------
-    /**
-     * Si hay cambios sin guardar (dirty), pregunta:
-     * - Save (si no hay fichero -> Save As)
-     * - Don't Save
-     * - Cancel
-     *
-     * Devuelve true si se puede continuar con la acción solicitada.
-     */
     private boolean confirmSaveIfDirty(String title, String header) {
         if (!mainApp.isDirty()) {
             return true;
@@ -128,12 +171,12 @@ public class RootLayoutController {
         alert.getButtonTypes().setAll(save, dontSave, cancel);
         ButtonType result = alert.showAndWait().orElse(cancel);
         if (result == save) {
-            return saveOrSaveAs(); // ✅ aquí ocurre tu requisito “si no hay fichero -> Save As”
+            return saveOrSaveAs();
         }
         if (result == dontSave) {
             return true;
         }
-        return false; // cancel
+        return false;
     }
     // -------------------- HELPERS --------------------
     private FileChooser createJsonFileChooser(String title) {
