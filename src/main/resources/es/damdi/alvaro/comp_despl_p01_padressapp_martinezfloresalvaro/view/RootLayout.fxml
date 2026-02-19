@@ -26,14 +26,18 @@
                         <MenuItem mnemonicParsing="false" text="Delete" />
                     </items>
                 </Menu>
-                <Menu mnemonicParsing="false" onAction="#handleShowBirthdayStatistics" text="Statistics">
+                <Menu mnemonicParsing="false" text="Statistics">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Show Statistics" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleShowBirthdayStatistics" text="Show Statistics" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleShowDonutChart" text="Show Generations Donut" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="About" />
+                        <MenuItem mnemonicParsing="true" onAction="#handleAbout" text="_About" />
+                        <MenuItem mnemonicParsing="true" onAction="#handleHelpHtml" text="_HTML" accelerator="Shortcut+H" />
+                        <MenuItem mnemonicParsing="true" onAction="#handleHelpMarkdown" text="_Markdown" accelerator="Shortcut+M" />
+                        <MenuItem mnemonicParsing="true" onAction="#handleHelpPdf" text="_PDF" accelerator="Shortcut+P" />
                     </items>
                 </Menu>
             </menus>

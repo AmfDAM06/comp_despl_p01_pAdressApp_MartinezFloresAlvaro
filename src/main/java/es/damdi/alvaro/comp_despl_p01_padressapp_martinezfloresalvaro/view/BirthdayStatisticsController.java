@@ -2,6 +2,7 @@ package es.damdi.alvaro.comp_despl_p01_padressapp_martinezfloresalvaro.view;
 
 import es.damdi.alvaro.comp_despl_p01_padressapp_martinezfloresalvaro.model.Person;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.chart.*;
@@ -11,44 +12,38 @@ import java.util.*;
 
 public class BirthdayStatisticsController {
 
-    // --- GRÁFICO 1: BARRAS (Tutorial) ---
     @FXML
     private BarChart<String, Integer> barChart;
     @FXML
     private CategoryAxis xAxis;
     private ObservableList<String> monthNames = FXCollections.observableArrayList();
 
-    // --- GRÁFICO 2: PIE (Generaciones) ---
     @FXML
     private PieChart pieChart;
 
-    // --- GRÁFICO 3: LINEA (Años) ---
     @FXML
     private LineChart<Number, Number> lineChart;
 
     @FXML
     private void initialize() {
-        // Inicializar meses para el gráfico de barras
         String[] months = DateFormatSymbols.getInstance(Locale.ENGLISH).getMonths();
         monthNames.addAll(Arrays.asList(months));
         xAxis.setCategories(monthNames);
     }
 
-    /**
-     * Setea los datos de las personas y genera TODOS los gráficos a la vez.
-     */
-    public void setPersonData(List<Person> persons) {
-        // 1. Cargar Gráfico de Barras (Meses)
+    public void setPersonData(ObservableList<Person> persons) {
+        updateCharts(persons);
+        persons.addListener((ListChangeListener<Person>) c -> updateCharts(persons));
+    }
+
+    private void updateCharts(List<Person> persons) {
         updateBarChart(persons);
-
-        // 2. Cargar PieChart (Generaciones)
         updatePieChart(persons);
-
-        // 3. Cargar LineChart (Años)
         updateLineChart(persons);
     }
 
     private void updateBarChart(List<Person> persons) {
+        barChart.getData().clear();
         int[] monthCounter = new int[12];
         for (Person p : persons) {
             int month = p.getBirthday().getMonthValue() - 1;
@@ -65,10 +60,10 @@ public class BirthdayStatisticsController {
     }
 
     private void updatePieChart(List<Person> persons) {
-        int genZ = 0;       // 1997 - 2012
-        int millennials = 0;// 1981 - 1996
-        int genX = 0;       // 1965 - 1980
-        int boomers = 0;    // 1946 - 1964
+        int genZ = 0;
+        int millennials = 0;
+        int genX = 0;
+        int boomers = 0;
         int others = 0;
 
         for (Person p : persons) {
@@ -92,8 +87,8 @@ public class BirthdayStatisticsController {
     }
 
     private void updateLineChart(List<Person> persons) {
-        // Contar nacimientos por año usando un Mapa
-        Map<Integer, Integer> yearCounts = new TreeMap<>(); // TreeMap ordena por clave (año)
+        lineChart.getData().clear();
+        Map<Integer, Integer> yearCounts = new TreeMap<>();
 
         for (Person p : persons) {
             int year = p.getBirthday().getYear();

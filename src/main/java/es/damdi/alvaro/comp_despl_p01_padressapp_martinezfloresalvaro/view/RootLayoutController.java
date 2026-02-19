@@ -59,6 +59,25 @@ public class RootLayoutController {
         }
         mainApp.getPrimaryStage().close();
     }
+    @FXML
+    private void handleAbout() {
+        mainApp.showAbout();
+    }
+
+    @FXML
+    private void handleHelpHtml() {
+        mainApp.showHelpHtml();
+    }
+
+    @FXML
+    private void handleHelpMarkdown() {
+        mainApp.showHelpMarkdown();
+    }
+
+    @FXML
+    private void handleHelpPdf() {
+        mainApp.showHelpPdf();
+    }
     // -------------------- SAVE LOGIC --------------------
     private boolean saveOrSaveAs() {
         File file = mainApp.getPersonFilePath();
@@ -99,6 +118,11 @@ public class RootLayoutController {
     }
 
     // ---------------- CSV EXPORT / IMPORT ----------------
+
+    @FXML
+    private void handleShowDonutChart() {
+        mainApp.showGenerationsDonut();
+    }
 
     @FXML
     private void handleExportCsv() {

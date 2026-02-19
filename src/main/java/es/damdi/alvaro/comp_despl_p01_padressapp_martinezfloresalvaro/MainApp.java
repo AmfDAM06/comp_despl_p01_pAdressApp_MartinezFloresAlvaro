@@ -27,6 +27,29 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.kordamp.bootstrapfx.BootstrapFX;
+import eu.hansolo.tilesfx.Tile;
+import eu.hansolo.tilesfx.TileBuilder;
+import eu.hansolo.tilesfx.chart.ChartData;
+import javafx.scene.paint.Color;
+import javafx.collections.ListChangeListener;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.shape.Circle;
+import javafx.beans.Observable;
+import javafx.scene.web.WebView;
+import com.vladsch.flexmark.html.HtmlRenderer;
+import com.vladsch.flexmark.parser.Parser;
+import com.vladsch.flexmark.util.ast.Node;
+import com.dansoftware.pdfdisplayer.PDFDisplayer;
+import javafx.scene.control.Alert;
+import java.io.File;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class MainApp extends Application {
 
@@ -36,7 +59,9 @@ public class MainApp extends Application {
     /**
      * The data as an observable list of Persons.
      */
-    private ObservableList<Person> personData = FXCollections.observableArrayList();
+    private ObservableList<Person> personData = FXCollections.observableArrayList(
+            person -> new Observable[]{person.birthdayProperty()}
+    );
 
     private final PersonRepository repository = new JacksonPersonRepository();
 
@@ -177,21 +202,19 @@ public class MainApp extends Application {
      */
     public void showBirthdayStatistics() {
         try {
-            // Load the fxml file and create a new stage for the popup.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/BirthdayStatistics.fxml"));
             AnchorPane page = (AnchorPane) loader.load();
 
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Birthday Statistics");
-            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initModality(Modality.NONE);
             dialogStage.initOwner(primaryStage);
             dialogStage.getIcons().add(new Image(MainApp.class.getResourceAsStream("/images/icono.png")));
 
             Scene scene = new Scene(page);
             dialogStage.setScene(scene);
 
-            // Set the persons into the controller.
             BirthdayStatisticsController controller = loader.getController();
             controller.setPersonData(personData);
 
@@ -258,6 +281,183 @@ public class MainApp extends Application {
 
     public File getPersonFilePath() {
         return personFilePath;
+    }
+
+    public void showGenerationsDonut() {
+        Stage donutStage = new Stage();
+        donutStage.setTitle("Generations Donut Chart");
+        donutStage.initModality(Modality.NONE);
+        donutStage.initOwner(primaryStage);
+        donutStage.getIcons().add(new Image(MainApp.class.getResourceAsStream("/images/icono.png")));
+
+        Tile donutTile = TileBuilder.create()
+                .skinType(Tile.SkinType.DONUT_CHART)
+                .title("Generations Donut")
+                .backgroundColor(Color.TRANSPARENT)
+                .build();
+
+        donutTile.getStyleClass().add("tile");
+
+        VBox legendBox = new VBox(10);
+        legendBox.setAlignment(Pos.CENTER_LEFT);
+        legendBox.setPadding(new Insets(20));
+
+        updateDonutDataWithLegend(donutTile, legendBox);
+
+        personData.addListener((ListChangeListener<Person>) c -> updateDonutDataWithLegend(donutTile, legendBox));
+
+        HBox root = new HBox(20, donutTile, legendBox);
+        root.setAlignment(Pos.CENTER);
+        root.setPrefSize(600, 450);
+        root.getStyleClass().add("donut-tile-container");
+
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(MainApp.class.getResource("view/DarkTheme.css").toExternalForm());
+
+        donutStage.setScene(scene);
+        donutStage.show();
+    }
+
+    private void updateDonutDataWithLegend(Tile donutTile, VBox legendBox) {
+        int genZ = 0;
+        int millennials = 0;
+        int genX = 0;
+        int boomers = 0;
+        int others = 0;
+
+        for (Person p : personData) {
+            int year = p.getBirthday().getYear();
+            if (year >= 1997 && year <= 2012) genZ++;
+            else if (year >= 1981 && year <= 1996) millennials++;
+            else if (year >= 1965 && year <= 1980) genX++;
+            else if (year >= 1946 && year <= 1964) boomers++;
+            else others++;
+        }
+
+        donutTile.clearChartData();
+        donutTile.addChartData(new ChartData("Gen Z", genZ, Color.web("#4facfe")));
+        donutTile.addChartData(new ChartData("Millennials", millennials, Color.web("#00f2fe")));
+        donutTile.addChartData(new ChartData("Gen X", genX, Color.web("#43e97b")));
+        donutTile.addChartData(new ChartData("Baby Boomers", boomers, Color.web("#38f9d7")));
+        donutTile.addChartData(new ChartData("Others", others, Color.web("#fa709a")));
+
+        legendBox.getChildren().clear();
+        legendBox.getChildren().addAll(
+                createLegendItem("Gen Z", Color.web("#4facfe")),
+                createLegendItem("Millennials", Color.web("#00f2fe")),
+                createLegendItem("Gen X", Color.web("#43e97b")),
+                createLegendItem("Baby Boomers", Color.web("#38f9d7")),
+                createLegendItem("Others", Color.web("#fa709a"))
+        );
+    }
+
+    private HBox createLegendItem(String name, Color color) {
+        Circle circle = new Circle(8, color);
+        Label label = new Label(name);
+        label.getStyleClass().add("label");
+        HBox item = new HBox(10, circle, label);
+        item.setAlignment(Pos.CENTER_LEFT);
+        return item;
+    }
+
+    private void updateDonutData(Tile donutTile) {
+        int genZ = 0;
+        int millennials = 0;
+        int genX = 0;
+        int boomers = 0;
+        int others = 0;
+
+        for (Person p : personData) {
+            int year = p.getBirthday().getYear();
+            if (year >= 1997 && year <= 2012) genZ++;
+            else if (year >= 1981 && year <= 1996) millennials++;
+            else if (year >= 1965 && year <= 1980) genX++;
+            else if (year >= 1946 && year <= 1964) boomers++;
+            else others++;
+        }
+
+        donutTile.clearChartData();
+        donutTile.addChartData(new ChartData("Gen Z", genZ, Color.web("#4facfe")));
+        donutTile.addChartData(new ChartData("Millennials", millennials, Color.web("#00f2fe")));
+        donutTile.addChartData(new ChartData("Gen X", genX, Color.web("#43e97b")));
+        donutTile.addChartData(new ChartData("Baby Boomers", boomers, Color.web("#38f9d7")));
+        donutTile.addChartData(new ChartData("Others", others, Color.web("#fa709a")));
+    }
+
+    public void showAbout() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.initOwner(primaryStage);
+        alert.setTitle("About");
+        alert.setHeaderText("AddressApp");
+        alert.setContentText("Desarrollado por Álvaro Martínez Flores.");
+        alert.showAndWait();
+    }
+
+    public void showHelpHtml() {
+        try {
+            WebView webView = new WebView();
+            URL url = getClass().getResource("/help/html/index.html");
+
+            if (url != null) {
+                webView.getEngine().load(url.toExternalForm());
+            } else {
+                webView.getEngine().loadContent("<html><body><h2>Error loading HTML</h2></body></html>");
+            }
+
+            Stage stage = new Stage();
+            stage.setTitle("Help - HTML");
+            stage.setScene(new Scene(webView, 800, 600));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void showHelpMarkdown() {
+        try {
+            URL resourceUrl = getClass().getResource("/help/markdown/README.md");
+            String markdownContent = "";
+
+            if (resourceUrl != null) {
+                Path path = Paths.get(resourceUrl.toURI());
+                markdownContent = Files.readString(path);
+            }
+
+            Parser parser = Parser.builder().build();
+            HtmlRenderer renderer = HtmlRenderer.builder().build();
+            Node document = parser.parse(markdownContent);
+            String htmlContent = renderer.render(document);
+
+            WebView webView = new WebView();
+            webView.getEngine().loadContent(htmlContent);
+
+            Stage stage = new Stage();
+            stage.setTitle("Help - Markdown");
+            stage.setScene(new Scene(webView, 800, 600));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void showHelpPdf() {
+        try {
+            PDFDisplayer displayer = new PDFDisplayer();
+            Scene scene = new Scene(displayer.toNode(), 800, 600);
+            URL pdfUrl = getClass().getResource("/help/pdf/ayuda.pdf");
+
+            if (pdfUrl != null) {
+                File pdfFile = new File(pdfUrl.toURI());
+                displayer.loadPDF(pdfFile);
+            }
+
+            Stage stage = new Stage();
+            stage.setTitle("Help - PDF");
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {
