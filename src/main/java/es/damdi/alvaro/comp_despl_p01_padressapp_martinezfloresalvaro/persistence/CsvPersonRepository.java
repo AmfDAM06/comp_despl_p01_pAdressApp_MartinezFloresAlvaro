@@ -9,6 +9,9 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Csv person repository.
+ */
 public class CsvPersonRepository implements PersonRepository {
 
     // Usamos punto y coma para que Excel lo abra bien directamente

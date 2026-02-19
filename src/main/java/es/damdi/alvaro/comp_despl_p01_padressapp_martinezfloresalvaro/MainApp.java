@@ -51,6 +51,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+/**
+ * The type Main app.
+ */
 public class MainApp extends Application {
 
     private Stage primaryStage;
@@ -69,6 +72,9 @@ public class MainApp extends Application {
 
     private File personFilePath;
 
+    /**
+     * Instantiates a new Main app.
+     */
     public MainApp() {
         // Add some sample data
         personData.add(new Person("Hans", "Muster"));
@@ -82,6 +88,11 @@ public class MainApp extends Application {
         personData.add(new Person("Martin", "Mueller"));
     }
 
+    /**
+     * Gets person data.
+     *
+     * @return the person data
+     */
     public ObservableList<Person> getPersonData() {
         return personData;
     }
@@ -104,10 +115,20 @@ public class MainApp extends Application {
         loadOnStartup();
     }
 
+    /**
+     * Sets dirty.
+     *
+     * @param dirty the dirty
+     */
     public void setDirty(boolean dirty) {
         this.dirty = dirty;
     }
 
+    /**
+     * Is dirty boolean.
+     *
+     * @return the boolean
+     */
     public boolean isDirty() {
         return dirty;
     }
@@ -160,6 +181,8 @@ public class MainApp extends Application {
 
     /**
      * Returns the main stage.
+     *
+     * @return the primary stage
      */
     public Stage getPrimaryStage() {
         return primaryStage;
@@ -167,6 +190,9 @@ public class MainApp extends Application {
 
     /**
      * Opens a dialog to edit details for the specified person.
+     *
+     * @param person the person
+     * @return the boolean
      */
     public boolean showPersonEditDialog(Person person) {
         try {
@@ -225,6 +251,11 @@ public class MainApp extends Application {
         }
     }
 
+    /**
+     * Sets person file path.
+     *
+     * @param file the file
+     */
     public void setPersonFilePath(File file) {
         this.personFilePath = file;
         AppPreferences.setPersonFile(file == null ? null : file.getAbsolutePath());
@@ -234,6 +265,12 @@ public class MainApp extends Application {
         }
     }
 
+    /**
+     * Load person data from json.
+     *
+     * @param file the file
+     * @throws IOException the io exception
+     */
     public void loadPersonDataFromJson(File file) throws IOException {
         List<Person> loaded = repository.load(file);
         personData.setAll(loaded);
@@ -241,6 +278,12 @@ public class MainApp extends Application {
         setDirty(false);
     }
 
+    /**
+     * Save person data to json.
+     *
+     * @param file the file
+     * @throws IOException the io exception
+     */
     public void savePersonDataToJson(File file) throws IOException {
         repository.save(file, new ArrayList<>(personData));
         setPersonFilePath(file);
@@ -279,10 +322,18 @@ public class MainApp extends Application {
     private final Path defaultJsonPath =
             Paths.get(System.getProperty("user.home"), ".addressappv2", "persons.json");
 
+    /**
+     * Gets person file path.
+     *
+     * @return the person file path
+     */
     public File getPersonFilePath() {
         return personFilePath;
     }
 
+    /**
+     * Show generations donut.
+     */
     public void showGenerationsDonut() {
         Stage donutStage = new Stage();
         donutStage.setTitle("Generations Donut Chart");
@@ -384,6 +435,9 @@ public class MainApp extends Application {
         donutTile.addChartData(new ChartData("Others", others, Color.web("#fa709a")));
     }
 
+    /**
+     * Show about.
+     */
     public void showAbout() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.initOwner(primaryStage);
@@ -393,6 +447,9 @@ public class MainApp extends Application {
         alert.showAndWait();
     }
 
+    /**
+     * Show help html.
+     */
     public void showHelpHtml() {
         try {
             WebView webView = new WebView();
@@ -413,6 +470,9 @@ public class MainApp extends Application {
         }
     }
 
+    /**
+     * Show help markdown.
+     */
     public void showHelpMarkdown() {
         try {
             URL resourceUrl = getClass().getResource("/help/markdown/README.md");
@@ -440,6 +500,9 @@ public class MainApp extends Application {
         }
     }
 
+    /**
+     * Show help pdf.
+     */
     public void showHelpPdf() {
         try {
             PDFDisplayer displayer = new PDFDisplayer();
@@ -460,6 +523,11 @@ public class MainApp extends Application {
         }
     }
 
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     */
     public static void main(String[] args) {
         launch(args);
     }

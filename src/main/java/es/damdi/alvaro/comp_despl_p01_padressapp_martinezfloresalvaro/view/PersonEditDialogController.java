@@ -7,6 +7,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+
 /**
  * Dialog to edit details of a person.
  *
@@ -43,7 +44,7 @@ public class PersonEditDialogController {
     /**
      * Sets the stage of this dialog.
      *
-     * @param dialogStage
+     * @param dialogStage the dialog stage
      */
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
@@ -52,7 +53,7 @@ public class PersonEditDialogController {
     /**
      * Sets the person to be edited in the dialog.
      *
-     * @param person
+     * @param person the person
      */
     public void setPerson(Person person) {
         this.person = person;
@@ -69,7 +70,7 @@ public class PersonEditDialogController {
     /**
      * Returns true if the user clicked OK, false otherwise.
      *
-     * @return
+     * @return the boolean
      */
     public boolean isOkClicked() {
         return okClicked;

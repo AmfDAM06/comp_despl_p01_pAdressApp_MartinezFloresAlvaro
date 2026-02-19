@@ -10,6 +10,9 @@ import javafx.scene.chart.*;
 import java.text.DateFormatSymbols;
 import java.util.*;
 
+/**
+ * The type Birthday statistics controller.
+ */
 public class BirthdayStatisticsController {
 
     @FXML
@@ -31,6 +34,11 @@ public class BirthdayStatisticsController {
         xAxis.setCategories(monthNames);
     }
 
+    /**
+     * Sets person data.
+     *
+     * @param persons the persons
+     */
     public void setPersonData(ObservableList<Person> persons) {
         updateCharts(persons);
         persons.addListener((ListChangeListener<Person>) c -> updateCharts(persons));

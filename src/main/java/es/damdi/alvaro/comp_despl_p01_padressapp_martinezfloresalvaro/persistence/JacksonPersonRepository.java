@@ -16,10 +16,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-    public class JacksonPersonRepository implements PersonRepository {
+/**
+ * The type Jackson person repository.
+ */
+public class JacksonPersonRepository implements PersonRepository {
         private final ObjectMapper mapper;
 
-        public JacksonPersonRepository() {
+    /**
+     * Instantiates a new Jackson person repository.
+     */
+    public JacksonPersonRepository() {
             // Jackson: clase principal para leer/escribir JSON
             this.mapper = new ObjectMapper();
             // Soporte para java.time (LocalDate, LocalDateTime, etc.)

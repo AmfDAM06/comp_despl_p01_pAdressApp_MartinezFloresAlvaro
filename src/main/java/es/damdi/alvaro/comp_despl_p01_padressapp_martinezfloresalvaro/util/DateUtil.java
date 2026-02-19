@@ -35,7 +35,7 @@ public class DateUtil {
     /**
      * Converts a String in the format of the defined {@link DateUtil#DATE_PATTERN}
      * to a {@link LocalDate} object.
-     *
+     * <p>
      * Returns null if the String could not be converted.
      *
      * @param dateString the date as String
@@ -57,7 +57,7 @@ public class DateUtil {
     /**
      * Checks the String whether it is a valid date.
      *
-     * @param dateString
+     * @param dateString the date string
      * @return true if the String is a valid date
      */
     public static boolean validDate(String dateString) {

@@ -6,12 +6,15 @@
 
     <groupId>es.damdi.alvaro</groupId>
     <artifactId>comp_despl_p01_pAdressApp_MartinezFloresAlvaro</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <name>comp_despl_p01_pAdressApp_MartinezFloresAlvaro</name>
+    <version>1.0-RELEASE</version>
+    <name>AddressApp</name>
+    <description>Aplicación de direcciones en JavaFX con Maven</description>
+    <url>https://github.com/AmfDAM06/comp_despl_p01_pAdressApp_MartinezFloresAlvaro.git</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>5.12.1</junit.version>
+        <maven.compiler.release>25</maven.compiler.release>
     </properties>
 
     <repositories>
@@ -72,7 +75,28 @@
     </dependencies>
 
     <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>3.12.0</version>
+                    <configuration>
+                        <!-- Para JDK 9+ mejor "release" -->
+                        <release>${maven.compiler.release}</release>
+                        <additionalOptions>
+                            <additionalOption>--show-packages</additionalOption>
+                            <additionalOption>all</additionalOption>
+                        </additionalOptions>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -92,7 +116,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                es.damdi.alvaro.comp_despl_p01_padressapp_martinezfloresalvaro/es.damdi.alvaro.comp_despl_p01_padressapp_martinezfloresalvaro.MainApp
+                                es.damdi.alvaro.comp_despl_p01_padressapp_martinezfloresalvaro/es.damdi.alvaro.comp_despl_p01_padressapp_martinezfloresalvaro.LaunchMain
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
@@ -104,6 +128,51 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.6.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>es.damdi.alvaro.comp_despl_p01_padressapp_martinezfloresalvaro/es.damdi.alvaro.comp_despl_p01_padressapp_martinezfloresalvaro.LaunchMain</mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.21.0</version>
+                <configuration>
+                    <locales>es,en</locales>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.12.0</version>
+                <configuration>
+                    <release>${maven.compiler.release}</release>
+                    <!-- Para proyectos MODULARES: incluir paquetes no exportados -->
+                    <additionalOptions>
+                        <additionalOption>--show-packages</additionalOption>
+                        <additionalOption>all</additionalOption>
+                    </additionalOptions>
+                </configuration>
+            </plugin>
+        </plugins>
+    </reporting>
 </project>

@@ -10,9 +10,18 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * The type Root layout controller.
+ */
 public class RootLayoutController {
 
     private MainApp mainApp;
+
+    /**
+     * Sets main app.
+     *
+     * @param mainApp the main app
+     */
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
     }
