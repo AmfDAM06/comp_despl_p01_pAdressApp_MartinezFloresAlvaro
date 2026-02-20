@@ -1,0 +1,20 @@
+
+
+Version:	3.50
+CmdLine:	C:\Users\Alvaro\IdeaProjects\comp_despl_p01_pAdressApp_MartinezFloresAlvaro\deploy\ejecutable\AdressApp.exe --l4j-debug
+JNI:		No
+WOW64:		Yes
+Working dir:	C:\Users\Alvaro\IdeaProjects\comp_despl_p01_pAdressApp_MartinezFloresAlvaro\deploy\ejecutable\.
+Requires JDK:	No
+Requires 64-Bit: No
+Java min ver:	
+Java max ver:	
+Substitute:	JAVA_HOME = C:\dev\jdk\jdk-25
+Substitute:	PATH = C:\dev\jdk\jdk-25\bin;D:\apache-maven-3.9.12\bin;C:\Program Files\PlasticSCM5\server;C:\Program Files\PlasticSCM5\client;C:\Program Files\Oculus\Support\oculus-runtime;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit\;C:\dev\jdk\jdk-25\bin;C:\Program Files\Git\cmd;C:\Users\Alvaro\AppData\Local\Microsoft\WindowsApps;C:\Users\Alvaro\AppData\Local\JetBrains\Toolbox\scripts;C:\Users\Alvaro\AppData\Local\GitHubDesktop\bin;C:\dev\jdk\jdk-25\bin
+JRE paths:	C:\dev\jdk\jdk-25;C:\dev\jdk\jdk-25\bin;D:\apache-maven-3.9.12\bin;C:\Program Files\PlasticSCM5\server;C:\Program Files\PlasticSCM5\client;C:\Program Files\Oculus\Support\oculus-runtime;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit\;C:\dev\jdk\jdk-25\bin;C:\Program Files\Git\cmd;C:\Users\Alvaro\AppData\Local\Microsoft\WindowsApps;C:\Users\Alvaro\AppData\Local\JetBrains\Toolbox\scripts;C:\Users\Alvaro\AppData\Local\GitHubDesktop\bin;C:\dev\jdk\jdk-25\bin
+Check launcher:	C:\dev\jdk\jdk-25\bin\javaw.exe (OK)
+Version string: 1.025.000 / 64-Bit (OK)
+Launcher:	C:\dev\jdk\jdk-25\bin\javaw.exe
+Launcher args:	-jar "C:\Users\Alvaro\IdeaProjects\comp_despl_p01_pAdressApp_MartinezFloresAlvaro\deploy\ejecutable\AdressApp.exe"
+Args length:	114/32768 chars
+Exit code:	0

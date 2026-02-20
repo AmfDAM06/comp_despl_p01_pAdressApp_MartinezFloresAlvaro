@@ -84,6 +84,8 @@
                     <configuration>
                         <!-- Para JDK 9+ mejor "release" -->
                         <release>${maven.compiler.release}</release>
+                        <!-- Para proyectos MODULARES: incluir paquetes no exportados
+                       -->
                         <additionalOptions>
                             <additionalOption>--show-packages</additionalOption>
                             <additionalOption>all</additionalOption>
@@ -96,6 +98,14 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.21.0</version>
+                <configuration>
+                    <locales>es,fr</locales>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -116,7 +126,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                es.damdi.alvaro.comp_despl_p01_padressapp_martinezfloresalvaro/es.damdi.alvaro.comp_despl_p01_padressapp_martinezfloresalvaro.LaunchMain
+                                es.damdi.alvaro.comp_despl_p01_padressapp_martinezfloresalvaro.LaunchMain
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
@@ -141,20 +151,12 @@
                         <configuration>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>es.damdi.alvaro.comp_despl_p01_padressapp_martinezfloresalvaro/es.damdi.alvaro.comp_despl_p01_padressapp_martinezfloresalvaro.LaunchMain</mainClass>
+                                    <mainClass>es.damdi.alvaro.comp_despl_p01_padressapp_martinezfloresalvaro.LaunchMain</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-site-plugin</artifactId>
-                <version>3.21.0</version>
-                <configuration>
-                    <locales>es,en</locales>
-                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -166,7 +168,8 @@
                 <version>3.12.0</version>
                 <configuration>
                     <release>${maven.compiler.release}</release>
-                    <!-- Para proyectos MODULARES: incluir paquetes no exportados -->
+                    <!-- Para proyectos MODULARES: incluir paquetes no
+                   exportados -->
                     <additionalOptions>
                         <additionalOption>--show-packages</additionalOption>
                         <additionalOption>all</additionalOption>
