@@ -96,7 +96,7 @@
         <configuration>
           <release>${maven.compiler.release}</release>
           <additionalOptions>
-            <additionalOption>--showpackages</additionalOption>
+            <additionalOption>--show-packages</additionalOption>
             <additionalOption>all</additionalOption>
           </additionalOptions>
         </configuration>

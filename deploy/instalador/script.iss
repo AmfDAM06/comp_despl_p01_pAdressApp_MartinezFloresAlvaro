@@ -4,7 +4,7 @@
 
 #define MyAppName "AdressApp"
 #define MyAppVersion "1.5"
-#define MyAppPublisher "AlvaroM"
+#define MyAppPublisher "Alvaro"
 #define MyAppURL "https://www.example.com/"
 #define MyAppExeName "AdressApp.exe"
 #define MyAppAssocName MyAppName + " File"
@@ -14,7 +14,7 @@
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
-AppId={{DF2A4EF6-F79B-4B65-A95B-98AFC35EC342}
+AppId={{7D68768D-81FF-4FA4-9443-604D8F9915FE}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 ;AppVerName={#MyAppName} {#MyAppVersion}
@@ -26,14 +26,14 @@ DefaultDirName={autopf}\{#MyAppName}
 UninstallDisplayIcon={app}\{#MyAppExeName}
 ChangesAssociations=yes
 DisableProgramGroupPage=yes
-LicenseFile=C:\Users\Alvaro\IdeaProjects\comp_despl_p01_pAdressApp_MartinezFloresAlvaro\deploy\Licencia.txt
-InfoBeforeFile=C:\Users\Alvaro\IdeaProjects\comp_despl_p01_pAdressApp_MartinezFloresAlvaro\deploy\Antes.txt
-InfoAfterFile=C:\Users\Alvaro\IdeaProjects\comp_despl_p01_pAdressApp_MartinezFloresAlvaro\deploy\Despues.txt
+LicenseFile=C:\Users\Álvaro\IdeaProjects\comp_despl_p01_pAdressApp_MartinezFloresAlvaro\deploy\Licencia.txt
+InfoBeforeFile=C:\Users\Álvaro\IdeaProjects\comp_despl_p01_pAdressApp_MartinezFloresAlvaro\deploy\Antes.txt
+InfoAfterFile=C:\Users\Álvaro\IdeaProjects\comp_despl_p01_pAdressApp_MartinezFloresAlvaro\deploy\Despues.txt
 ; Uncomment the following line to run in non administrative install mode (install for current user only).
 ;PrivilegesRequired=lowest
-OutputDir=C:\Users\Alvaro\IdeaProjects\comp_despl_p01_pAdressApp_MartinezFloresAlvaro\deploy\instalador
-OutputBaseFilename=setup
-SetupIconFile=C:\Users\Alvaro\IdeaProjects\comp_despl_p01_pAdressApp_MartinezFloresAlvaro\deploy\instalador.ico
+OutputDir=C:\Users\Álvaro\IdeaProjects\comp_despl_p01_pAdressApp_MartinezFloresAlvaro\deploy\instalador
+OutputBaseFilename=mysetup
+SetupIconFile=C:\Users\Álvaro\IdeaProjects\comp_despl_p01_pAdressApp_MartinezFloresAlvaro\deploy\instalador.ico
 SolidCompression=yes
 WizardStyle=modern dynamic
 
@@ -45,8 +45,8 @@ Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "C:\Users\Alvaro\IdeaProjects\comp_despl_p01_pAdressApp_MartinezFloresAlvaro\deploy\ejecutable\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Alvaro\IdeaProjects\comp_despl_p01_pAdressApp_MartinezFloresAlvaro\deploy\doc\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\Álvaro\IdeaProjects\comp_despl_p01_pAdressApp_MartinezFloresAlvaro\deploy\ejecutable\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Álvaro\IdeaProjects\comp_despl_p01_pAdressApp_MartinezFloresAlvaro\deploy\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Registry]
